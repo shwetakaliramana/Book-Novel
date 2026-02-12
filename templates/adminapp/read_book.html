@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Read Book | Book & Novel{% endblock %}
+{% block content %}
+<div class="container py-4 fade-in">
+  <h2 class="mb-4">Read: {{ book.title }}</h2>
+  {% if book.pdf_file %}
+    <div class="ratio ratio-16x9 mb-4">
+      <iframe src="{{ book.pdf_file.url }}" width="100%" height="600" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <a href="{{ book.pdf_file.url }}" class="btn btn-outline-primary" target="_blank">Download PDF</a>
+  {% else %}
+    <div class="alert alert-warning">No PDF available for this book.</div>
+  {% endif %}
+  <a href="{% url 'book_detail' book.slug %}" class="btn btn-secondary mt-3">Back to Book Details</a>
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard | Book & Novel{% endblock %}
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+<div class="mb-4">
+  <a href="/admin/adminapp/book/" class="btn btn-outline-primary me-2">Manage Products</a>
+  <a href="/admin/adminapp/category/" class="btn btn-outline-primary me-2">Manage Categories</a>
+  <a href="/admin/adminapp/brand/" class="btn btn-outline-primary me-2">Manage Brands</a>
+  <a href="/admin/adminapp/order/" class="btn btn-outline-primary me-2">Manage Orders</a>
+  <a href="/admin/auth/user/" class="btn btn-outline-primary me-2">Manage Customers</a>
+</div>
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card text-bg-primary mb-3">
+      <div class="card-body text-center">
+        <h5 class="card-title">Total Books</h5>
+        <p class="display-6">{{ total_books }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-bg-success mb-3">
+      <div class="card-body text-center">
+        <h5 class="card-title">Total Authors</h5>
+        <p class="display-6">{{ total_authors }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-bg-warning mb-3">
+      <div class="card-body text-center">
+        <h5 class="card-title">Total Categories</h5>
+        <p class="display-6">{{ total_categories }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<h4>Recent Uploads</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Category</th>
+      <th>Status</th>
+      <th>Created</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for book in recent_books %}
+    <tr>
+      <td>{{ book.title }}</td>
+      <td>{{ book.author.name }}</td>
+      <td>{{ book.category.name }}</td>
+      <td>{{ book.get_status_display }}</td>
+      <td>{{ book.created_at|date:"M d, Y H:i" }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">No recent uploads.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<hr>
+<h4>Most Viewed Books</h4>
+<table class="table table-bordered">
+  <thead><tr><th>Book</th><th>Views</th></tr></thead>
+  <tbody>
+    {% for b in most_viewed_books %}
+      <tr><td>{{ b.book__title }}</td><td>{{ b.view_count }}</td></tr>
+    {% empty %}
+      <tr><td colspan="2">No data</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<h4>Most Active Users</h4>
+<table class="table table-bordered">
+  <thead><tr><th>User</th><th>Actions</th></tr></thead>
+  <tbody>
+    {% for u in most_active_users %}
+      <tr><td>{{ u.user__username }}</td><td>{{ u.action_count }}</td></tr>
+    {% empty %}
+      <tr><td colspan="2">No data</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

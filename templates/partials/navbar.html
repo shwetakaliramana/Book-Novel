@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top py-2" style="font-family: 'Poppins', Arial, sans-serif;">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+      <i class="fa-solid fa-book-open-reader fa-lg text-primary"></i>
+      <span style="font-family: 'Playfair Display', serif; font-weight:700; font-size:1.5rem;">Book & Novel</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+          <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+            {% for category in categories %}
+            <li><a class="dropdown-item" href="{% url 'category' category.slug %}">{{ category.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="authorDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Authors</a>
+          <ul class="dropdown-menu" aria-labelledby="authorDropdown">
+            {% for author in authors %}
+            <li><a class="dropdown-item" href="{% url 'author' author.slug %}">{{ author.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="eraDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eras</a>
+          <ul class="dropdown-menu" aria-labelledby="eraDropdown">
+            {% for era in eras %}
+            <li><a class="dropdown-item" href="{% url 'era' era.slug %}">{{ era.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex align-items-center position-relative me-3" method="get" action="{% url 'search' %}" style="max-width: 250px;">
+        <input class="form-control ps-5" type="search" name="q" placeholder="Search books..." aria-label="Search" style="border-radius: 2rem;">
+        <span class="position-absolute start-0 ps-3 text-muted"><i class="fa fa-search"></i></span>
+      </form>
+      {% if user.is_authenticated %}
+        <div class="dropdown">
+          <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            {% if user.profile.avatar and user.profile.avatar.url %}
+              <img src="{{ user.profile.avatar.url }}" alt="avatar" width="36" height="36" class="rounded-circle shadow-sm me-2" style="object-fit:cover;">
+            {% else %}
+              <img src="/static/img/default-avatar.png" alt="avatar" width="36" height="36" class="rounded-circle shadow-sm me-2" style="object-fit:cover;">
+            {% endif %}
+            <span>{{ user.username }}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fa fa-user me-2"></i>Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'order_history' %}"><i class="fa fa-box me-2"></i>My Orders</a></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out-alt me-2"></i>Logout</a></li>
+          </ul>
+        </div>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-outline-primary rounded-pill px-4 me-2">Login</a>
+        <a href="{% url 'register' %}" class="btn btn-primary rounded-pill px-4">Register</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>

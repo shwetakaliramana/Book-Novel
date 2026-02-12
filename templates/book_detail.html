@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}{{ book.title }} | Book & Novel{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Book Images Gallery -->
+      <div class="mb-3">
+        {% for img in images %}
+          <img src="{{ img.image.url }}" alt="{{ img.alt_text }}" class="img-fluid mb-2" style="max-width:200px;">
+        {% empty %}
+          <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="img-fluid mb-2" style="max-width:200px;">
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h1>{{ book.title }}</h1>
+      <p><strong>Author:</strong> {{ book.author.name }}</p>
+      <p><strong>Category:</strong> {{ book.category.name }}</p>
+      <p><strong>Brand:</strong> {{ book.brand.name }}</p>
+      <p><strong>Era:</strong> {{ book.era.name }}</p>
+      <p><strong>Description:</strong> {{ book.description }}</p>
+      <p><strong>Price:</strong> ₹{{ book.price }}</p>
+      <p><strong>Stock:</strong> {{ book.stock }}</p>
+      {% if book.average_rating %}
+        <p><strong>Average Rating:</strong> {{ book.average_rating }} / 5</p>
+      {% endif %}
+      <a href="#" class="btn btn-primary">Add to Cart</a>
+      <a href="#" class="btn btn-outline-secondary">Add to Wishlist</a>
+    </div>
+  </div>
+  <hr>
+  <h3>Reviews</h3>
+  {% for review in reviews %}
+    <div class="mb-2">
+      <strong>{{ review.user.username }}</strong> ({{ review.rating }}/5): {{ review.review }}
+    </div>
+  {% empty %}
+    <p>No reviews yet.</p>
+  {% endfor %}
+</div>
+{% if request.user.is_authenticated %}
+  <h4>Leave a Review</h4>
+  <form method="post">
+    {% csrf_token %}
+    {{ review_form.review }}
+    <button type="submit" class="btn btn-sm btn-primary mt-2">Submit Review</button>
+  </form>
+{% else %}
+  <p><a href="{% url 'login' %}?next={{ request.path }}">Login</a> to rate or review this book.</p>
+{% endif %}
+    <hr>
+    {% if related_books %}
+    <hr>
+    <h5>Related Books</h5>
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+      {% for rel in related_books %}
+      <div class="col">
+        <div class="card h-100">
+          <a href="{% url 'book_detail' rel.slug %}"><img src="{{ rel.cover_image.url }}" class="card-img-top" alt="{{ rel.title }}" style="height:120px; object-fit:cover;"></a>
+          <div class="card-body p-2">
+            <h6 class="card-title mb-0"><a href="{% url 'book_detail' rel.slug %}" class="text-decoration-none">{{ rel.title }}</a></h6>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if related_books %}
+    <hr>
+    <h5>Related Books</h5>
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+      {% for rel in related_books %}
+      <div class="col">
+        <div class="card h-100">
+          <a href="{% url 'book_detail' rel.slug %}"><img src="{{ rel.cover_image.url }}" class="card-img-top" alt="{{ rel.title }}" style="height:120px; object-fit:cover;"></a>
+          <div class="card-body p-2">
+            <h6 class="card-title mb-0"><a href="{% url 'book_detail' rel.slug %}" class="text-decoration-none">{{ rel.title }}</a></h6>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

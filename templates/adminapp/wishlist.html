@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Wishlist | Book & Novel{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h2>Your Wishlist</h2>
+  {% if wishlist_items %}
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+      {% for item in wishlist_items %}
+      <div class="col">
+        <div class="card h-100">
+          <img src="{{ item.book.cover_image.url }}" class="card-img-top" alt="{{ item.book.title }}" style="height:220px; object-fit:cover;">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.book.title }}</h5>
+            <p class="card-text">by {{ item.book.author.name }}</p>
+            <form method="post" action="{% url 'remove_from_wishlist' item.book.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>You have no items in your wishlist.</p>
+  {% endif %}
+</div>
+{% endblock %}

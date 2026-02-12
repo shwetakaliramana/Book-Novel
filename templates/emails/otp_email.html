@@ -1,0 +1,17 @@
+{% autoescape off %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>OTP Verification</title>
+</head>
+<body>
+    <h2>Hello {{ user.username }},</h2>
+    <p>Your OTP code for Book & Novel registration is:</p>
+    <h3 style="color:#007bff;">{{ otp }}</h3>
+    <p>This code is valid for 10 minutes. Please do not share it with anyone.</p>
+    <hr>
+    <p>Book & Novel Team</p>
+</body>
+</html>
+{% endautoescape %}

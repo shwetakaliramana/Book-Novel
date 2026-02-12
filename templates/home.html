@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home - Book & Novel{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+        <h1 class="hero-title fade-in">Welcome to Book & Novel</h1>
+        <p class="lead text-muted mb-4" style="font-size: 1.2rem;">Discover timeless classics, contemporary bestsellers, and hidden gems</p>
+        <div>
+            <a href="#featured" class="btn btn-primary hero-btn">Explore Books</a>
+            <a href="#categories" class="btn btn-outline-primary hero-btn">Browse Categories</a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Books Section -->
+{% if featured_books %}
+<section id="featured" class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <h2 style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 2rem;">
+                    <i class="fas fa-star text-warning me-2"></i>Featured Books
+                </h2>
+                <p class="text-muted">Hand-picked selections for our readers</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for book in featured_books %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    {% if book.cover_image %}
+                        <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
+                    {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 260px;">
+                            <i class="fas fa-book fa-5x text-muted opacity-50"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-text text-muted small mb-2">by {{ book.author.name }}</p>
+                        {% if book.average_rating %}
+                            <div class="rating-stars mb-2">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= book.average_rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% elif forloop.counter|add:"-1" < book.average_rating %}
+                                        <i class="fas fa-star-half-alt"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                <span class="text-muted small">({{ book.average_rating }})</span>
+                            </div>
+                        {% endif %}
+                        <p class="card-text flex-grow-1 small text-truncate">{{ book.description|truncatewords:15 }}</p>
+                        <div class="d-flex gap-2 mt-auto">
+                            <a href="{% url 'book_detail' book.slug %}" class="btn btn-sm btn-primary flex-grow-1">
+                                <i class="fas fa-eye me-1"></i>View
+                            </a>
+                            <button class="btn btn-sm btn-outline-danger btn-wishlist" title="Add to Wishlist">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Categories Section -->
+{% if categories %}
+<section id="categories" class="py-5 bg-white">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <h2 style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 2rem;">
+                    <i class="fas fa-list text-primary me-2"></i>Browse by Category
+                </h2>
+                <p class="text-muted">Find books in your favorite genres</p>
+            </div>
+        </div>
+        <div class="row g-3">
+            {% for category in categories %}
+            <div class="col-md-6 col-lg-4">
+                <a href="{% url 'category' category.slug %}" class="text-decoration-none">
+                    <div class="card border-0 shadow-sm" style="height: 150px; cursor: pointer; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                            <i class="fas fa-book fa-3x mb-3 opacity-75"></i>
+                            <h5 class="card-title fw-bold">{{ category.name }}</h5>
+                            <small class="opacity-75">{{ category.books.count }} books</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Latest/New Books Section -->
+{% if new_books %}
+<section id="latest" class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <h2 style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 2rem;">
+                    <i class="fas fa-fire text-danger me-2"></i>Latest Additions
+                </h2>
+                <p class="text-muted">Fresh books added to our collection</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for book in new_books %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm">
+                    {% if book.cover_image %}
+                        <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
+                    {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 260px;">
+                            <i class="fas fa-book fa-5x text-muted opacity-50"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title">{{ book.title }}</h6>
+                        <p class="card-text text-muted small mb-2">{{ book.author.name }}</p>
+                        {% if book.average_rating %}
+                            <div class="rating-stars small mb-2">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= book.average_rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% elif forloop.counter|add:"-1" < book.average_rating %}
+                                        <i class="fas fa-star-half-alt"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <a href="{% url 'book_detail' book.slug %}" class="btn btn-sm btn-outline-primary mt-auto">
+                            <i class="fas fa-eye me-1"></i>Read More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Trending Books Section -->
+{% if trending_books %}
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <h2 style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 2rem;">
+                    <i class="fas fa-chart-line text-success me-2"></i>Trending Now
+                </h2>
+                <p class="text-muted">Most popular books right now</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for book in trending_books %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm">
+                    {% if book.cover_image %}
+                        <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
+                    {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 260px;">
+                            <i class="fas fa-book fa-5x text-muted opacity-50"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title">{{ book.title }}</h6>
+                        <p class="card-text text-muted small mb-2">{{ book.author.name }}</p>
+                        {% if book.average_rating %}
+                            <div class="rating-stars small mb-2">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= book.average_rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% elif forloop.counter|add:"-1" < book.average_rating %}
+                                        <i class="fas fa-star-half-alt"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <a href="{% url 'book_detail' book.slug %}" class="btn btn-sm btn-outline-primary mt-auto">
+                            <i class="fas fa-eye me-1"></i>Read More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Empty State Message -->
+{% if not new_books and not featured_books and not categories %}
+<section class="py-5">
+    <div class="container">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Welcome!</h4>
+            <p>Our library is being populated with wonderful books. Please check back soon!</p>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

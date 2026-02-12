@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Order History | Book & Novel{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h2 class="mb-4">My Orders</h2>
+  {% if orders %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th>Order #</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Items</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.placed_at|date:'Y-m-d H:i' }}</td>
+            <td>{{ order.get_status_display }}</td>
+            <td>
+              <ul class="list-unstyled mb-0">
+                {% for item in order.cart.items.all %}
+                  <li>{{ item.book.title }} <span class="text-muted">x{{ item.quantity }}</span></li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td>
+              ₹{% with 0 as total %}{% for item in order.cart.items.all %}{% if not forloop.first %}+{% endif %}{{ item.total_price }}{% widthratio forloop.counter 1 1 as dummy %}{% endfor %}{% endwith %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>You have not placed any orders yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,163 @@
+/* styles.css: Custom styles for Book & Novel Website */
+body {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e3e6f3 100%);
+    font-family: 'Poppins', Arial, sans-serif;
+    color: #222;
+}
+
+.navbar {
+    box-shadow: 0 2px 16px 0 rgba(60,60,100,0.08);
+    transition: box-shadow 0.2s;
+    z-index: 1000;
+}
+.navbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 1.5rem;
+}
+.navbar .nav-link {
+    font-weight: 500;
+    color: #333 !important;
+    transition: color 0.2s;
+}
+.navbar .nav-link:hover, .navbar .dropdown-item:hover {
+    color: #0d6efd !important;
+    background: #f3f6ff;
+}
+.navbar .dropdown-menu {
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+/* Search bar icon */
+.navbar .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13,110,253,.15);
+}
+
+/* Card styles */
+.card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px 0 rgba(60,60,100,0.07);
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: #fff;
+}
+.card:hover {
+    box-shadow: 0 8px 32px 0 rgba(13,110,253,0.10), 0 2px 12px 0 rgba(60,60,100,0.10);
+    transform: translateY(-6px) scale(1.03);
+    z-index: 2;
+}
+.card-img-top {
+    border-radius: 1rem 1rem 0 0;
+    object-fit: cover;
+    height: 260px;
+    transition: filter 0.2s;
+}
+.card:hover .card-img-top {
+    filter: brightness(0.97) saturate(1.1);
+}
+.card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.card-text {
+    color: #555;
+}
+.rating-stars {
+    color: #ffc107;
+    font-size: 1.1rem;
+}
+.btn-read, .btn-cart, .btn-wishlist {
+    border-radius: 2rem;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-wishlist {
+    background: none;
+    color: #e74c3c;
+    border: none;
+}
+.btn-wishlist:hover {
+    color: #c0392b;
+}
+
+/* Hero section */
+.hero-section {
+    background: linear-gradient(120deg, #e3e6f3 0%, #f8f9fa 100%);
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.7);
+    z-index: 1;
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 1rem;
+}
+.hero-btn {
+    border-radius: 2rem;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    margin: 0 0.5rem;
+    font-size: 1.1rem;
+}
+
+/* Footer */
+.footer {
+    background: #181c2f !important;
+    color: #fff;
+    border-top: none;
+    box-shadow: 0 -2px 16px 0 rgba(60,60,100,0.08);
+}
+.footer a {
+    color: #bfc9e0;
+    transition: color 0.2s;
+}
+.footer a:hover {
+    color: #fff;
+}
+.footer .fa-lg {
+    transition: color 0.2s, transform 0.2s;
+}
+.footer .fa-lg:hover {
+    color: #0d6efd;
+    transform: scale(1.2);
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 1s ease-in;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 767px) {
+    .card-img-top {
+        height: 180px;
+    }
+    .hero-title {
+        font-size: 1.5rem;
+    }
+    .navbar-brand span {
+        font-size: 1.1rem;
+    }
+}

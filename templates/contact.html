@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Contact | Book & Novel{% endblock %}
+{% block content %}
+<section class="container py-5 fade-in">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <h1 class="display-5 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">Contact Us</h1>
+      <p class="lead mb-4">Have questions, feedback, or partnership inquiries? We'd love to hear from you! Fill out the form below or email us at <a href="mailto:info@bookandnovel.com" class="text-primary">info@bookandnovel.com</a>.</p>
+      <form class="row g-3 justify-content-center">
+        <div class="col-md-6">
+          <input type="text" class="form-control rounded-pill" placeholder="Your Name" required>
+        </div>
+        <div class="col-md-6">
+          <input type="email" class="form-control rounded-pill" placeholder="Your Email" required>
+        </div>
+        <div class="col-12">
+          <textarea class="form-control rounded-4" rows="4" placeholder="Your Message" required></textarea>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
